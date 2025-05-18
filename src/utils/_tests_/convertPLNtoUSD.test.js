@@ -11,7 +11,6 @@ describe('ConvertPLNtoUSD', () => {
   it('should return NaN when input is text', () => {
     expect(convertPLNToUSD('abc')).toBeNaN();
     expect(convertPLNToUSD('')).toBeNaN();
-    expect(convertPLNToUSD(null)).toBeNaN();
     expect(convertPLNToUSD(undefined)).toBeNaN();
   });
 

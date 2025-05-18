@@ -1,20 +1,25 @@
 export const convertPLNToUSD = (PLN) => {
-  // Jeśli typ nie jest string lub number → błąd
-  if (typeof PLN !== 'string' && typeof PLN !== 'number') return 'Error';
+  // jeśli brak wartości — np. undefined
+  if (PLN === undefined) return NaN;
 
-  // Konwersja do liczby
-  const numericValue = Number(PLN);
+  // jeśli typ jest inny niż number lub string
+  if (typeof PLN !== 'number' && typeof PLN !== 'string') return 'Error';
 
-  // Jeżeli nie da się przekonwertować → NaN
-  if (isNaN(numericValue)) return NaN;
+  // próba parsowania do liczby
+  const value = Number(PLN);
 
-  // Jeśli ujemne → zwracamy $0.00
-  const safeValue = numericValue < 0 ? 0 : numericValue;
+  // jeśli po parsowaniu nadal nie jest liczbą (np. 'abc' albo '')
+  if (PLN === '' || isNaN(value)) return NaN;
+
+  // jeśli wartość ujemna — zwracamy $0.00
+  const safeValue = value < 0 ? 0 : value;
+
+  const PLNtoUSD = safeValue / 3.5;
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
   });
 
-  return formatter.format(safeValue / 3.5).replace(/\u00a0/g, ' ');
+  return formatter.format(PLNtoUSD).replace(/\u00a0/g, ' ');
 };
